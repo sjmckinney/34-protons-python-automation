@@ -1,8 +1,9 @@
 # filename: pages/login_page.py
 
 from selenium.webdriver.common.by import By
-#from base_page import BasePage
 from .base_page import BasePage
+from pages import main_page
+
 
 class LoginPage(BasePage):
     _login_form = {"by": By.ID, "value": "login"}
@@ -14,15 +15,16 @@ class LoginPage(BasePage):
 
     def __init__(self, driver):
         self.driver = driver
-        self._visit("http://www.34protons.co.uk/demo_2_0/login.php")
-        #self._visit("http://localhost/login.php")
+        self._visit("/login.php")
         assert self._is_displayed(self._login_form)
 
     def with_(self, username, password):
         self._type(self._user_input, username)
         self._type(self._password_input, password)
         self._click(self._submit_button)
+        return main_page.MainPage(self.driver)
 
-    def login_success_message(self):
+    def loading_message(self):
         if self.wait_for_is_displayed(self._loading_message):
-            return self._find(self._loading_message).text == "Loading... Please wait";
+            return self._find(self._loading_message).text == "Loading... Please wait"
+

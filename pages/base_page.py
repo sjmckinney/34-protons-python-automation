@@ -3,13 +3,17 @@
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
+from tests import config
 
 class BasePage():
     def __init__(self, driver):
         self.driver = driver
 
     def _visit(self, url):
-        self.driver.get(url)
+        if url.startswith("http"):
+            self.driver.get(url)
+        else:
+            self.driver.get(config.baseurl + url)
 
     def _find(self, locator):
         return self.driver.find_element(locator["by"], locator["value"])
@@ -38,3 +42,13 @@ class BasePage():
         except TimeoutException:
             return False
         return True
+
+    def wait_for_title_to_be(self, expected_title, timeout=10):
+           try:
+               wait = WebDriverWait(self.driver, timeout)
+               wait.until(
+                   expected_conditions.title_is(expected_title)
+               )
+           except TimeoutException:
+               return False
+           return True

@@ -1,21 +1,23 @@
 # filename tests/login_test.py
 
 import pytest
-import os
-from selenium import webdriver
 from pages import login_page
 
-class TestLogin():
 
-    @pytest.fixture(scope="session")
-    def login(self):
-        #_geckodriver = os.path.join(os.getcwd(), 'vendor' , 'geckodriver' )
-        _geckodriver = "/usr/local/bin/geckodriver"
-        driver_ = webdriver.Firefox(executable_path=_geckodriver)
-        yield login_page.LoginPage(driver_)
-        driver_.quit()
+class TestLogin:
 
+    USER = "user"
+    VALID_PWD = "123"
+    INVALID_PWD = "321"
 
-    def test_valid_credentials(self, login):
-        login.with_("user", "123")
-        assert login.login_success_message()
+    @pytest.fixture
+    def login(self, driver):
+        return login_page.LoginPage(driver)
+
+    def test_displays_page_loading_with_valid_credentials(self, login):
+        login.with_(self.USER, self.VALID_PWD)
+        assert login.loading_message()
+
+    def test_main_page_loads(self, login):
+        mainpage = login.with_(self.USER, self.VALID_PWD)
+        assert mainpage.page_loaded()
