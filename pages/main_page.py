@@ -5,14 +5,13 @@ from .base_page import BasePage
 
 
 class MainPage(BasePage):
-    browser_title = "Demo page for selenium code"
+    BROWSER_TITLE = "Demo page for selenium code"
     _main_page_title = {"by": By.ID, "value": "title"}
-
 
     def __init__(self, driver, bypass_login=False):
         self.driver = driver
         if bypass_login:
-            self._visit("/login.php")
+            self._visit("/")
 
     def page_loaded(self):
-        return self.wait_for_title_to_be(self.browser_title)
+        return self.wait_for_title_to_be(self.BROWSER_TITLE)
