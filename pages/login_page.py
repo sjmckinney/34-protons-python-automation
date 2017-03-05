@@ -27,4 +27,3 @@ class LoginPage(BasePage):
     def loading_message(self):
         if self.wait_for_is_displayed(self._loading_message):
             return self._find(self._loading_message).text == "Loading... Please wait"
-

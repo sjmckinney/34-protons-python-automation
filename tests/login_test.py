@@ -12,6 +12,8 @@ class TestLogin:
 
     @pytest.fixture
     def login(self, driver):
+        """Returns instance of login page"""
+        print("Created instance of login page")
         return login_page.LoginPage(driver)
 
     def test_displays_page_loading_with_valid_credentials(self, login):
