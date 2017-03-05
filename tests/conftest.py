@@ -4,6 +4,8 @@ import pytest
 import os
 from tests import config
 from selenium import webdriver
+import logging
+logging.basicConfig(filename="test.log", level=logging.INFO)
 
 
 def pytest_addoption(parser):
@@ -19,12 +21,17 @@ def pytest_addoption(parser):
                      )
 
 
+def create_log_headers(request):
+    logging.info('\nStarting test: {}\nContained in file {}'.format(request.node.name, request.node.location[0]))
+
+
 @pytest.fixture
 def driver(request):
     """Returns a Firefox driver instance using geckodriver"""
     config.baseurl = request.config.getoption("--baseurl")
     config.geckodriverpath = request.config.getoption("--geckodriverpath")
 
+    create_log_headers(request)
     driver_ = webdriver.Firefox(executable_path=config.geckodriverpath)
     yield driver_
     driver_.quit()

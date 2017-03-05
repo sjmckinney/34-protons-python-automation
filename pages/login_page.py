@@ -6,11 +6,13 @@ from pages import main_page
 
 
 class LoginPage(BasePage):
+    LOADING_MSG = "Loading... Please wait"
+    ERROR_MSG = "Username or password invalid"
     _login_form = {"by": By.ID, "value": "login"}
     _user_input = {"by": By.ID, "value": "username"}
     _password_input = {"by": By.ID, "value": "password"}
     _submit_button = {"by": By.NAME, "value": "submit"}
-    _error_msg = {"by": By.ID, "value": "input_error"}
+    _error_message = {"by": By.ID, "value": "input_error"}
     _loading_message = {"by": By.ID, "value": "loading"}
 
     def __init__(self, driver):
@@ -26,4 +28,8 @@ class LoginPage(BasePage):
 
     def loading_message(self):
         if self.wait_for_is_displayed(self._loading_message):
-            return self._find(self._loading_message).text == "Loading... Please wait"
+            return self._find(self._loading_message).text == self.LOADING_MSG
+
+    def error_message(self):
+        if self.wait_for_is_displayed(self._error_message):
+            return self._find(self._error_message).text == self.ERROR_MSG
