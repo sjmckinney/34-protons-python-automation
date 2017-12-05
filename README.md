@@ -5,7 +5,7 @@
 This is a demo project showcasing the use of Python and Selenium/WebDriver in test automation.
 Pre-requisites are selenium (3+) and pytest
 ```
-pip install selenium, pytest
+pip install selenium pytest
 ```
 The results of running _pip freeze_ were;
 
